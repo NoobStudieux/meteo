@@ -4,6 +4,7 @@
 import threading, json
 from urllib.request import urlopen
 from tkinter import *
+import codecs
 
 class ThreadRequete(threading.Thread):
     def __init__(self, canvas):
@@ -11,10 +12,13 @@ class ThreadRequete(threading.Thread):
         self.can = canvas
     def run(self):
         reponse = urlopen("http://www.infoclimat.fr/public-api/gfs/json?_ll=48.85341,2.3488&_auth=U0kAFwV7AyFVeAQzUyUCK1gwUGVeKFN0Uy8HZA9qVCkIY1U0BmYBZ1E%2FBHkGKQA2VntXNAgzBjZUP1AoAXNVNFM5AGwFbgNkVToEYVN8AilYdlAxXn5TdFMzB2cPfFQ2CGxVMQZ7AWJROARgBigANlZgVzIIKAYhVDZQMgFtVTZTOQBtBWIDYlU6BGJTfAIpWG5QYV5hUz1TZgdhD2pUNwhuVTAGYQEyUTYEbwYoADJWYVc0CDQGPlQ%2BUD8BbVUpUy8AHQUVA3xVegQkUzYCcFh2UGVeP1M%2F&_c=51602a5bb6f07ac0369caa115b564ec5")
-        reponseJson = json.load(reponse)
+        reader = codecs.getreader("utf-8")
+        reponseJson = json.load(reader(reponse))
         self.can.delete('all')
         x = 20
         y = 400
+
+        print(reponseJson)
     # legende 
         self.can.create_text(50,10, text='temperature', fill='red')
         self.can.create_text(50,30, text='pluie', fill='blue')
